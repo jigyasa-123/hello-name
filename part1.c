@@ -8,7 +8,26 @@
 #define MAX 80
 #define PORT 10
 #define SA struct sockaddr
-
+void func(int sockfd)
+{
+char buff[MAX];
+int n;
+for(;;)
+{
+bzero(buff,MAX);
+read(sockfd,buff,sizeof(buff));
+printf("From client: %s\t To client : ",buff);
+bzero(buff,MAX);
+n=0;
+while((buff[n++]=getchar())!='\n');
+write(sockfd,buff,sizeof(buff));
+if(strncmp("exit",buff,4)==0)
+{
+printf("Server Exit...\n");
+break;
+}
+}
+}
 int main()
 {
 int sockfd,connfd,len;
